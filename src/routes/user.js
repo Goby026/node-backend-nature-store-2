@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-router.post('/users', async (req, res) => {
+router.post('/', async (req, res) => {
     //crear nuevo usuario
     try {
         const user = new User(req.body);
@@ -16,7 +16,7 @@ router.post('/users', async (req, res) => {
     }
 });
 
-router.post('/users/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     //login de usuario registrado
     try {
         const {email, password} = req.body;
@@ -32,11 +32,11 @@ router.post('/users/login', async (req, res) => {
     }
 });
 
-router.get('/users/me', auth, (req, res)=>{
+router.get('/me', auth, (req, res)=>{
     res.send(req.user);
 });
 
-router.post('/users/me/logout', auth, async (req, res)=>{
+router.post('/me/logout', auth, async (req, res)=>{
     try {
         req.user.tokens = req.user.tokens.filter((token)=>{
             return token.token != req.token;
@@ -48,7 +48,7 @@ router.post('/users/me/logout', auth, async (req, res)=>{
     }
 });
 
-router.post('/users/me/logoutall', auth, async(req, res)=>{
+router.post('/me/logoutall', auth, async(req, res)=>{
     // matar todas las sesiones de los dispositivos
     try {
         req.user.tokens.splice(0, req.user.tokens.length);
